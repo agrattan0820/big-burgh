@@ -1,37 +1,47 @@
-from typing import List, Union
+from typing import Union
 
 from pydantic import BaseModel
 
 
-class ItemBase(BaseModel):
-    title: str
-    description: Union[str, None] = None
-
-
-class ItemCreate(ItemBase):
-    pass
-
-
-class Item(ItemBase):
+class Type(BaseModel):
     id: int
-    owner_id: int
+    name: str
 
     class Config:
         orm_mode = True
 
 
-class UserBase(BaseModel):
-    email: str
-
-
-class UserCreate(UserBase):
-    password: str
-
-
-class User(UserBase):
+class Filter(BaseModel):
     id: int
-    is_active: bool
-    items: List[Item] = []
+    name: str
+
+    class Config:
+        orm_mode = True
+
+
+class User(BaseModel):
+    id: int
+    email: str
+    password: str
+    first_name: str
+    last_name: str
+
+    class Config:
+        orm_mode = True
+
+
+class Resource(BaseModel):
+    id: int
+    name: str
+    description: Union[str, None] = None
+    recommended_for: Union[str, None] = None
+    requirements: Union[str, None] = None
+    phone_number: Union[str, None] = None
+    location: Union[str, None] = None
+    type_id: int
+    creator_id: int
+    type: Type
+    creator: User
 
     class Config:
         orm_mode = True

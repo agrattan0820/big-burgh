@@ -9,6 +9,7 @@ uvicorn = {extras = ["standard"], version = "*"}
 black = "*"
 sqlalchemy = "*"
 python-dotenv = "*"
+psycopg2 = "*"
 
 [dev-packages]
 black = "*"

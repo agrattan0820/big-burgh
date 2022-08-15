@@ -1,12 +1,9 @@
-from typing import Union
-from enum import Enum
-
+from typing import List
 from fastapi import Depends, FastAPI, HTTPException
-from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
-from . import crud, models, schemas
-from .database import SessionLocal, engine
+from backend import crud, models, schemas
+from backend.database import SessionLocal, engine
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -21,47 +18,30 @@ def get_db():
         db.close()
 
 
-class ModelName(str, Enum):
-    alexnet = "alexnet"
-    resnet = "resnet"
-    lenet = "lenet"
-
-
-class Item(BaseModel):
-    name: str
-    description: Union[str, None] = None
-    price: float
-    tax: Union[float, None] = None
-
-
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
 
 
-@app.get("/items/{item_id}")
-async def read_item(item_id: int):
-    return {"item_id": item_id}
-
-
-@app.get("/models/{model_name}")
-async def get_model(model_name: ModelName):
-    if model_name == ModelName.alexnet:
-        return {"model_name": model_name, "message": "Deep Learning FTW!"}
-    if model_name.value == "lenet":
-        return {"model_name": model_name, "message": "LeCNN all the images"}
-
-    return {"model_name": model_name, "message": "Have some residuals"}
-
-
-@app.post("/items/")
-async def create_item(item: Item):
-    return item
-
-
 @app.post("/users/", response_model=schemas.User)
-def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
+def create_user(user: schemas.User, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_email(db, email=user.email)
+    print("db_user", db_user)
     if db_user:
         raise HTTPException(status_code=400, detail="Email already registered")
-    return crud.create_user(db=db, user=user)
+    result = crud.create_user(db=db, user=user)
+    if not result:
+        # the exception is raised, not returned - you will get a validation
+        # error otherwise.
+        raise HTTPException(status_code=404, detail=f"User could not be created")
+    return result
+
+
+@app.get("/users/", response_model=List[schemas.User])
+def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    users = crud.get_users(db, skip=skip, limit=limit)
+    if not users:
+        # the exception is raised, not returned - you will get a validation
+        # error otherwise.
+        raise HTTPException(status_code=404, detail=f"Users could not be retrieved")
+    return users
