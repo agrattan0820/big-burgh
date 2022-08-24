@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, Integer, String, Text, Table
+from sqlalchemy import Column, ForeignKey, Integer, String, Text, Table, Float
 from sqlalchemy.orm import relationship
 
 from backend.database import Base
@@ -21,7 +21,9 @@ class Resource(Base):
     recommended_for = Column(Text)
     requirements = Column(Text)
     phone_number = Column(String)
-    location = Column(String)
+    address = Column(String)
+    latitude = Column(Float)
+    longitude = Column(Float)
     type_id = Column(Integer, ForeignKey("type.id"))  # Remove if many-to-many
     creator_id = Column(Integer, ForeignKey("user.id"))
 

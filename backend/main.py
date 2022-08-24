@@ -23,6 +23,16 @@ async def root():
     return {"message": "Hello World"}
 
 
+@app.get("/users/", response_model=List[schemas.User])
+def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    users = crud.get_users(db, skip=skip, limit=limit)
+    if not users:
+        # the exception is raised, not returned - you will get a validation
+        # error otherwise.
+        raise HTTPException(status_code=404, detail=f"Users could not be retrieved")
+    return users
+
+
 @app.post("/users/", response_model=schemas.User)
 def create_user(user: schemas.User, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_email(db, email=user.email)
@@ -37,11 +47,9 @@ def create_user(user: schemas.User, db: Session = Depends(get_db)):
     return result
 
 
-@app.get("/users/", response_model=List[schemas.User])
-def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    users = crud.get_users(db, skip=skip, limit=limit)
-    if not users:
-        # the exception is raised, not returned - you will get a validation
-        # error otherwise.
-        raise HTTPException(status_code=404, detail=f"Users could not be retrieved")
-    return users
+@app.get("/resources/", response_model=List[schemas.Resource])
+def read_resources(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    resources = crud.get_resources(db, skip=skip, limit=limit)
+    if not resources:
+        raise HTTPException(status_code=404, detail=f"Resources could not be retrieved")
+    return resources
