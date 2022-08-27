@@ -60,7 +60,7 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <Container>
         <Header />
-        <LocationText>{text}</LocationText>
+        {/* <LocationText>{text}</LocationText> */}
         {location !== null && (
           <>
             <MapView
