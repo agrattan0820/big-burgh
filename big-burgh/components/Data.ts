@@ -16,3 +16,5 @@ export const resources = [
     type: "job",
   },
 ];
+
+export type ResourcesType = typeof resources;

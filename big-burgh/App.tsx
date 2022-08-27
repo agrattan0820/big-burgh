@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Dimensions } from "react-native";
+import {
+  useFonts,
+  Nunito_400Regular,
+  Nunito_400Regular_Italic,
+  Nunito_700Bold,
+  Nunito_700Bold_Italic,
+} from "@expo-google-fonts/nunito";
 import styled, { ThemeProvider } from "styled-components/native";
 import MapView from "react-native-maps";
 import { LinearGradient } from "expo-linear-gradient";
@@ -22,6 +29,7 @@ const LocationText = styled.Text`
   color: black;
   font-size: 12px;
   padding: 0 16px;
+  font-family: ${(props) => props.theme.font};
 `;
 
 const theme = {
@@ -31,10 +39,22 @@ const theme = {
   yellow: "#FAE588",
   lightYellow: "#FCF0BA",
   yellowShadow: "0px 4px 4px rgba(252, 240, 186, 0.5);",
+  font: "Nunito_400Regular",
+  fontBold: "Nunito_700Bold",
 };
 
 export default function App() {
   const { text, location, setLocation } = useLocation();
+  let [fontsLoaded] = useFonts({
+    Nunito_400Regular,
+    Nunito_400Regular_Italic,
+    Nunito_700Bold,
+    Nunito_700Bold_Italic,
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
     <ThemeProvider theme={theme}>

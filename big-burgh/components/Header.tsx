@@ -17,6 +17,7 @@ const Title = styled.Text`
   font-size: 18px;
   color: black;
   font-weight: bold;
+  font-family: ${(props) => props.theme.fontBold};
 `;
 
 export default function Header() {
