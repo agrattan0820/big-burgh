@@ -8,7 +8,7 @@ import styled from "styled-components/native";
 import Header from "../components/Header";
 import ResourceList from "../components/ResourceList";
 import { useLocation } from "../components/hooks/useLocation";
-import { resources } from "../components/Data";
+import { resources, ResourcesType } from "../components/Data";
 
 const Container = styled.View`
   width: 100%;
@@ -43,6 +43,30 @@ export default function HomeScreen() {
     );
   };
 
+  /**
+   * Function that moves markers of locations that are the same so that they don't overlap
+   * TODO: improve performance by optimizing Big O
+   * https://github.com/react-native-maps/react-native-maps/issues/350
+   */
+  const moveSameLocationMarkers = (arr: ResourcesType) => {
+    const hash = Object.create(null);
+    const result = arr.map((x) => {
+      const latLng = `${x.latitude}_${x.longitude}`;
+      if (hash[latLng]) {
+        return {
+          ...x,
+          latitude: x.latitude - 0.0001,
+          longitude: x.longitude - 0.0001,
+        };
+      }
+      hash[latLng] = true;
+      return x;
+    });
+    return result;
+  };
+
+  const filteredResources = moveSameLocationMarkers(resources);
+
   return (
     <Container>
       <Header />
@@ -60,7 +84,7 @@ export default function HomeScreen() {
               height: 500,
             }}
           >
-            {resources.map((resource, i) => (
+            {filteredResources.map((resource, i) => (
               <Marker
                 key={i}
                 coordinate={{
