@@ -6,6 +6,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import Header from "./components/Header";
 import ResourceList from "./components/ResourceList";
 import { useLocation } from "./components/hooks/useLocation";
+import { resources } from "./components/Data";
 
 const Container = styled.View`
   width: 100%;
@@ -16,7 +17,7 @@ const Container = styled.View`
 
 const LocationText = styled.Text`
   position: absolute;
-  top: 72;
+  top: 72px;
   z-index: 1;
   color: black;
   font-size: 12px;
@@ -25,7 +26,11 @@ const LocationText = styled.Text`
 
 const theme = {
   blue: "#A2D6F9",
+  lightBlue: "#D4ECFC",
+  blueShadow: "0px 4px 4px rgba(162, 214, 249, 0.5)",
   yellow: "#FAE588",
+  lightYellow: "#FCF0BA",
+  yellowShadow: "0px 4px 4px rgba(252, 240, 186, 0.5);",
 };
 
 export default function App() {
@@ -45,7 +50,7 @@ export default function App() {
                 // position: "absolute",
                 // top: 0,
                 width: Dimensions.get("window").width,
-                height: 400,
+                height: 500,
               }}
             />
             <LinearGradient
@@ -60,7 +65,7 @@ export default function App() {
             />
           </>
         )}
-        <ResourceList />
+        <ResourceList resources={resources} />
       </Container>
     </ThemeProvider>
   );
