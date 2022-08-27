@@ -1,6 +1,8 @@
-import { Dimensions } from "react-native";
-import MapView from "react-native-maps";
+import { useRef } from "react";
+import { Dimensions, useColorScheme } from "react-native";
+import MapView, { Marker } from "react-native-maps";
 import { LinearGradient } from "expo-linear-gradient";
+import { StatusBar } from "expo-status-bar";
 import styled from "styled-components/native";
 
 import Header from "../components/Header";
@@ -12,7 +14,7 @@ const Container = styled.View`
   width: 100%;
   height: 100%;
   position: relative;
-  background-color: aliceblue;
+  background-color: ${(props) => props.theme.main};
 `;
 
 const LocationText = styled.Text`
@@ -25,7 +27,21 @@ const LocationText = styled.Text`
   font-family: ${(props) => props.theme.font};
 `;
 export default function HomeScreen() {
+  const mapView = useRef<MapView>(null);
+  const colorScheme = useColorScheme();
   const { text, location, setLocation } = useLocation();
+
+  const animateToCoordinates = (latitude: number, longitude: number) => {
+    mapView.current.animateToRegion(
+      {
+        latitude: latitude,
+        longitude: longitude,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01,
+      },
+      1000
+    );
+  };
 
   return (
     <Container>
@@ -34,6 +50,7 @@ export default function HomeScreen() {
       {location !== null && (
         <>
           <MapView
+            ref={mapView}
             initialRegion={location}
             onRegionChangeComplete={(region) => setLocation(region)}
             style={{
@@ -42,9 +59,25 @@ export default function HomeScreen() {
               width: Dimensions.get("window").width,
               height: 500,
             }}
-          />
+          >
+            {resources.map((resource, i) => (
+              <Marker
+                key={i}
+                coordinate={{
+                  latitude: resource.latitude,
+                  longitude: resource.longitude,
+                }}
+                title={resource.name}
+                description={resource.address}
+              />
+            ))}
+          </MapView>
           <LinearGradient
-            colors={["rgba(256, 256, 256, 1)", "rgba(256, 256, 256, 0)"]}
+            colors={
+              colorScheme === "dark"
+                ? ["rgba(0, 0, 0, 1)", "rgba(0, 0, 0, 0)"]
+                : ["rgba(256, 256, 256, 1)", "rgba(256, 256, 256, 0)"]
+            }
             style={{
               position: "absolute",
               left: 0,
@@ -55,7 +88,11 @@ export default function HomeScreen() {
           />
         </>
       )}
-      <ResourceList resources={resources} />
+      <ResourceList
+        resources={resources}
+        onResourcePress={animateToCoordinates}
+      />
+      <StatusBar style="auto" />
     </Container>
   );
 }

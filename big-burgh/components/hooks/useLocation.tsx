@@ -2,7 +2,14 @@ import { useEffect, useState } from "react";
 import * as Location from "expo-location";
 
 export const useLocation = () => {
-  const [location, setLocation] = useState(null);
+  type LocationProps = {
+    latitude: number;
+    longitude: number;
+    latitudeDelta: number;
+    longitudeDelta: number;
+  };
+
+  const [location, setLocation] = useState<LocationProps | null>(null);
   const [errorMsg, setErrorMsg] = useState(null);
 
   useEffect(() => {

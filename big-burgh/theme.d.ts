@@ -2,6 +2,8 @@ import "styled-components";
 
 declare module "styled-components" {
   export interface DefaultTheme {
+    main: string;
+    alternate: string;
     blue: string;
     lightBlue: string;
     blueShadow: string;

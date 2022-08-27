@@ -15,7 +15,7 @@ const Container = styled.View`
 const Title = styled.Text`
   text-align: center;
   font-size: 18px;
-  color: black;
+  color: ${(props) => props.theme.alternate};
   font-weight: bold;
   font-family: ${(props) => props.theme.fontBold};
 `;

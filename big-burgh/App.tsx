@@ -1,3 +1,4 @@
+import { useColorScheme } from "react-native";
 import {
   useFonts,
   Nunito_400Regular,
@@ -11,20 +12,24 @@ import { ThemeProvider } from "styled-components/native";
 
 import HomeScreen from "./screens/Home";
 
-const theme = {
-  blue: "#A2D6F9",
-  lightBlue: "#D4ECFC",
-  blueShadow: "0px 4px 4px rgba(162, 214, 249, 0.5)",
-  yellow: "#FAE588",
-  lightYellow: "#FCF0BA",
-  yellowShadow: "0px 4px 4px rgba(252, 240, 186, 0.5);",
-  font: "Nunito_400Regular",
-  fontBold: "Nunito_700Bold",
-};
-
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const colorScheme = useColorScheme();
+
+  const theme = {
+    main: colorScheme === "dark" ? "#121212" : "#FFFFFF",
+    alternate: colorScheme === "dark" ? "#FFFFFF" : "#121212",
+    blue: "#A2D6F9",
+    lightBlue: "#D4ECFC",
+    blueShadow: "0px 4px 4px rgba(162, 214, 249, 0.5)",
+    yellow: "#FAE588",
+    lightYellow: "#FCF0BA",
+    yellowShadow: "0px 4px 4px rgba(252, 240, 186, 0.5);",
+    font: "Nunito_400Regular",
+    fontBold: "Nunito_700Bold",
+  };
+
   let [fontsLoaded] = useFonts({
     Nunito_400Regular,
     Nunito_400Regular_Italic,
