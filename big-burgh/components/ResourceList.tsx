@@ -7,7 +7,7 @@ interface ColorProps {
   color: "blue" | "yellow";
 }
 
-type TypeOfResource = "food" | "job" | "shelter";
+type TypeOfResource = "food" | "job" | "shelter" | "activity";
 
 const ListContainer = styled.ScrollView`
   margin-top: -64px;
@@ -55,6 +55,7 @@ const ResourceSubtitle = styled.Text`
 `;
 
 const ResourceTypeText = styled.Text`
+  margin-top: 4px;
   font-family: ${(props) => props.theme.fontBold};
 `;
 
@@ -63,6 +64,7 @@ const ResourceType = ({ type }: { type: TypeOfResource }) => {
     food: "carrot",
     job: "briefcase",
     shelter: "home",
+    activity: "paint-brush",
   };
 
   return (
@@ -70,7 +72,7 @@ const ResourceType = ({ type }: { type: TypeOfResource }) => {
       style={{
         justifyContent: "center",
         alignItems: "center",
-        marginTop: -24,
+        marginTop: -20,
         paddingRight: 8,
       }}
     >
@@ -84,11 +86,16 @@ const ResourceType = ({ type }: { type: TypeOfResource }) => {
           <FontAwesome5 name={iconMap[type]} size={82} color="black" />
           <ResourceTypeText>Job</ResourceTypeText>
         </>
+      ) : type === "shelter" ? (
+        <>
+          <FontAwesome5 name={iconMap[type]} size={82} color="black" />
+          <ResourceTypeText>Shelter</ResourceTypeText>
+        </>
       ) : (
-        type === "shelter" && (
+        type === "activity" && (
           <>
             <FontAwesome5 name={iconMap[type]} size={82} color="black" />
-            <ResourceTypeText>Shelter</ResourceTypeText>
+            <ResourceTypeText>Activity</ResourceTypeText>
           </>
         )
       )}

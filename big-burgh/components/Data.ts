@@ -11,9 +11,14 @@ export const resources = [
     type: "food",
   },
   {
-    name: "Educator Coordinator",
+    name: "Educator Coordinator - 412 Youth Zone",
     address: "304 Wood St, 6th Floor",
     type: "job",
+  },
+  {
+    name: "Art Expressions - 412 Youth Zone",
+    address: "304 Wood St, 6th Floor",
+    type: "activity",
   },
 ];
 
