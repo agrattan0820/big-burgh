@@ -19,14 +19,6 @@ type ArrElement<ArrType> = ArrType extends readonly (infer ElementType)[]
   : never;
 
 /** STYLED COMPONENTS */
-const ListContainer = styled.ScrollView`
-  margin-top: -64px;
-  width: 100%;
-  height: 100%;
-  background-color: ${(props) => props.theme.main};
-  border-radius: 20px;
-  box-shadow: 0px 4px 4px ${(props) => props.theme.main};
-`;
 
 const ResourceEntryContainer = styled.View<ColorProps>`
   flex-direction: row;
@@ -247,9 +239,7 @@ export default function ResourceList({
   const colorScheme = useColorScheme();
 
   return (
-    <ListContainer
-      contentContainerStyle={{ paddingHorizontal: 16, paddingVertical: 24 }}
-    >
+    <>
       {resources.map((item, i) => {
         const resourceColor = i % 2 === 0 ? "blue" : "yellow";
         return (
@@ -262,6 +252,6 @@ export default function ResourceList({
           />
         );
       })}
-    </ListContainer>
+    </>
   );
 }

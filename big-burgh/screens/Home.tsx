@@ -9,6 +9,7 @@ import Header from "../components/Header";
 import ResourceList from "../components/ResourceList";
 import { useLocation } from "../components/hooks/useLocation";
 import { resources, ResourcesType } from "../components/Data";
+import BottomTab from "../components/BottomTab";
 
 const Container = styled.View`
   width: 100%;
@@ -136,11 +137,7 @@ export default function HomeScreen({ navigation }) {
           <ActivityIndicator size="large" />
         </LocationLoadingContainer>
       )}
-      <ResourceList
-        resources={resources}
-        onResourcePress={animateToCoordinates}
-      />
-
+      <BottomTab resources={resources} onResourcePress={animateToCoordinates} />
       <StatusBar style="auto" />
     </Container>
   );
