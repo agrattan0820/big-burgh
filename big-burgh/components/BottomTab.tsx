@@ -1,19 +1,21 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Keyboard } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import styled, { useTheme } from "styled-components/native";
 import { FontAwesome5 } from "@expo/vector-icons";
 
-import { ResourcesType } from "./Data";
+import { ResourceItem, ResourcesType } from "./Data";
 import ResourceList from "./ResourceList";
 import Animated, {
   Easing,
+  runOnJS,
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
   withTiming,
 } from "react-native-reanimated";
+import ResourcePage from "./ResourcePage";
 
 const ScrollContainer = styled(Animated.ScrollView)`
   width: 100%;
@@ -47,18 +49,34 @@ const SearchInput = styled.TextInput`
 `;
 
 const BottomTab = ({
+  selectedResource,
+  setSelectedResource,
   resources,
   onResourcePress,
 }: {
+  selectedResource: ResourceItem;
+  setSelectedResource: Dispatch<SetStateAction<ResourceItem>>;
   resources: ResourcesType;
-  onResourcePress: (latitude: number, longitude: number) => void;
+  onResourcePress: (resource: ResourceItem) => void;
 }) => {
   const theme = useTheme();
   const [searchText, setSearchText] = useState("");
   const translationY = useSharedValue(64);
 
-  const scrollHandler = useAnimatedScrollHandler((event) => {
-    translationY.value = Math.min(Math.max(event.contentOffset.y, 64), 200);
+  const scrollHandler = useAnimatedScrollHandler({
+    onScroll: (event) => {
+      console.log(event.contentOffset.y);
+
+      if (!selectedResource) {
+        translationY.value = Math.min(Math.max(event.contentOffset.y, 64), 200);
+      }
+    },
+    onEndDrag: (event) => {
+      if (selectedResource && event.contentOffset.y < -100) {
+        runOnJS(setSelectedResource)(undefined);
+        translationY.value = 64;
+      }
+    },
   });
 
   const stylez = useAnimatedStyle(() => {
@@ -83,6 +101,12 @@ const BottomTab = ({
     };
   }, []);
 
+  useEffect(() => {
+    if (selectedResource) {
+      translationY.value = 300;
+    }
+  }, [selectedResource]);
+
   return (
     <Container style={stylez}>
       <ScrollContainer
@@ -93,8 +117,16 @@ const BottomTab = ({
         }}
         scrollEventThrottle={16}
       >
-        <ResourceList resources={resources} onResourcePress={onResourcePress} />
+        {!selectedResource ? (
+          <ResourceList
+            resources={resources}
+            onResourcePress={onResourcePress}
+          />
+        ) : (
+          <ResourcePage resource={selectedResource} />
+        )}
       </ScrollContainer>
+
       <SearchContainer>
         <SearchInput
           onChangeText={setSearchText}

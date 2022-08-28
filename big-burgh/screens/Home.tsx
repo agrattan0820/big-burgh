@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import {
   ActivityIndicator,
   Dimensions,
@@ -13,7 +13,7 @@ import styled from "styled-components/native";
 import Header from "../components/Header";
 import ResourceList from "../components/ResourceList";
 import { useLocation } from "../components/hooks/useLocation";
-import { resources, ResourcesType } from "../components/Data";
+import { ResourceItem, resources, ResourcesType } from "../components/Data";
 import BottomTab from "../components/BottomTab";
 
 const Container = styled.View`
@@ -48,6 +48,7 @@ const LocationLoadingText = styled.Text`
 `;
 
 export default function HomeScreen({ navigation }) {
+  const [selectedResource, setSelectedResource] = useState<ResourceItem>();
   const mapView = useRef<MapView>(null);
   const colorScheme = useColorScheme();
   const { text, location, setLocation } = useLocation();
@@ -62,6 +63,11 @@ export default function HomeScreen({ navigation }) {
       },
       1000
     );
+  };
+
+  const resourcePress = (resource: ResourceItem) => {
+    setSelectedResource(resource);
+    animateToCoordinates(resource.latitude, resource.longitude);
   };
 
   /**
@@ -143,7 +149,12 @@ export default function HomeScreen({ navigation }) {
           <ActivityIndicator size="large" />
         </LocationLoadingContainer>
       )}
-      <BottomTab resources={resources} onResourcePress={animateToCoordinates} />
+      <BottomTab
+        selectedResource={selectedResource}
+        setSelectedResource={setSelectedResource}
+        resources={resources}
+        onResourcePress={resourcePress}
+      />
       <StatusBar style="auto" />
     </Container>
   );

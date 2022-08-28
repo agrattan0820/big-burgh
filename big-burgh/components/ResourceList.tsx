@@ -1,7 +1,7 @@
 import { useColorScheme, View } from "react-native";
 import styled, { useTheme } from "styled-components/native";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { ResourcesType } from "./Data";
+import { ResourceItem, ResourcesType } from "./Data";
 import { useLocation } from "./hooks/useLocation";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
@@ -12,11 +12,6 @@ interface ColorProps {
 }
 
 type TypeOfResource = "food" | "job" | "shelter" | "activity";
-
-/** Used to grab type from resources data */
-type ArrElement<ArrType> = ArrType extends readonly (infer ElementType)[]
-  ? ElementType
-  : never;
 
 /** STYLED COMPONENTS */
 
@@ -200,14 +195,14 @@ const ResourceEntry = ({
   dark,
 }: {
   resourceColor: "blue" | "yellow";
-  onResourcePress: (latitude: number, longitude: number) => void;
-  item: ArrElement<ResourcesType>;
+  onResourcePress: (resource: ResourceItem) => void;
+  item: ResourceItem;
   dark: boolean;
 }) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        onResourcePress(item.latitude, item.longitude);
+        onResourcePress(item);
       }}
     >
       <ResourceEntryContainer dark={dark} color={resourceColor}>
@@ -236,7 +231,7 @@ export default function ResourceList({
   onResourcePress,
 }: {
   resources: ResourcesType;
-  onResourcePress: (latitude: number, longitude: number) => void;
+  onResourcePress: (resource: ResourceItem) => void;
 }) {
   const colorScheme = useColorScheme();
 
