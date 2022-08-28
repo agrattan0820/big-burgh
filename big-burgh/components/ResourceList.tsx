@@ -24,8 +24,10 @@ const ResourceEntryContainer = styled.View<ColorProps>`
   flex-direction: row;
   justify-content: space-between;
   border-radius: 20px;
-  width: 100%;
+  width: 342px;
   height: 100px;
+  margin-left: auto;
+  margin-right: auto;
   margin-bottom: 16px;
   padding: 14px;
   background-color: ${(props) => {
