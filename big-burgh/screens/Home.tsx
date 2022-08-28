@@ -1,5 +1,10 @@
 import { useRef } from "react";
-import { ActivityIndicator, Dimensions, useColorScheme } from "react-native";
+import {
+  ActivityIndicator,
+  Dimensions,
+  Keyboard,
+  useColorScheme,
+} from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { LinearGradient } from "expo-linear-gradient";
 import { StatusBar } from "expo-status-bar";
@@ -96,6 +101,7 @@ export default function HomeScreen({ navigation }) {
             showsUserLocation={true}
             showsMyLocationButton={true}
             followsUserLocation={false}
+            onTouchStart={() => Keyboard.dismiss()}
             style={{
               // position: "absolute",
               // top: 0,

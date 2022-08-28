@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { View } from "react-native";
+import { useEffect, useState } from "react";
+import { Keyboard } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import styled, { useTheme } from "styled-components/native";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -63,21 +63,30 @@ const BottomTab = ({
 
   const stylez = useAnimatedStyle(() => {
     return {
-      // transform: [
-      //   {
-      //     translateY: withSpring(translationY.value * -1),
-      //   },
-      // ],
       marginTop: withSpring(translationY.value * -1),
-      // marginTop: translationY.value * -64,
     };
   });
+
+  const [keyboardStatus, setKeyboardStatus] = useState(undefined);
+
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
+      setKeyboardStatus("Keyboard Shown");
+    });
+    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+      setKeyboardStatus("Keyboard Hidden");
+    });
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
 
   return (
     <Container style={stylez}>
       <ScrollContainer
         onScroll={scrollHandler}
-        style={{ width: "100%", height: "100%" }}
         contentContainerStyle={{
           paddingHorizontal: 16,
           paddingVertical: 24,
@@ -92,6 +101,7 @@ const BottomTab = ({
           value={searchText}
           placeholder="Search for jobs, meals..."
           placeholderTextColor={theme.alternate}
+          onBlur={Keyboard.dismiss}
         />
         <FontAwesome5
           name="search"
