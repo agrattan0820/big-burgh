@@ -37,11 +37,11 @@ const LocationLoadingContainer = styled.View`
 const LocationLoadingText = styled.Text`
   color: ${(props) => props.theme.alternate};
   font-family: ${(props) => props.theme.font};
-  font-size: 24px;
+  font-size: 18px;
   margin-bottom: 8px;
 `;
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }) {
   const mapView = useRef<MapView>(null);
   const colorScheme = useColorScheme();
   const { text, location, setLocation } = useLocation();
@@ -84,22 +84,8 @@ export default function HomeScreen() {
 
   return (
     <Container>
-      <Header />
+      <Header navigation={navigation} />
       {/* <LocationText>{text}</LocationText> */}
-      <LinearGradient
-        colors={
-          colorScheme === "dark"
-            ? ["rgba(0, 0, 0, 1)", "rgba(0, 0, 0, 0)"]
-            : ["rgba(256, 256, 256, 1)", "rgba(256, 256, 256, 0)"]
-        }
-        style={{
-          position: "absolute",
-          left: 0,
-          right: 0,
-          top: 0,
-          height: 100,
-        }}
-      />
       {location !== null ? (
         <>
           <MapView
@@ -128,6 +114,7 @@ export default function HomeScreen() {
               />
             ))}
           </MapView>
+
           <LinearGradient
             colors={
               colorScheme === "dark"
@@ -153,6 +140,7 @@ export default function HomeScreen() {
         resources={resources}
         onResourcePress={animateToCoordinates}
       />
+
       <StatusBar style="auto" />
     </Container>
   );
