@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { Dimensions, useColorScheme } from "react-native";
+import { ActivityIndicator, Dimensions, useColorScheme } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { LinearGradient } from "expo-linear-gradient";
 import { StatusBar } from "expo-status-bar";
@@ -26,6 +26,21 @@ const LocationText = styled.Text`
   padding: 0 16px;
   font-family: ${(props) => props.theme.font};
 `;
+
+const LocationLoadingContainer = styled.View`
+  justify-content: center;
+  align-items: center;
+  height: 500px;
+  background-color: ${(props) => props.theme.main};
+`;
+
+const LocationLoadingText = styled.Text`
+  color: ${(props) => props.theme.alternate};
+  font-family: ${(props) => props.theme.font};
+  font-size: 24px;
+  margin-bottom: 8px;
+`;
+
 export default function HomeScreen() {
   const mapView = useRef<MapView>(null);
   const colorScheme = useColorScheme();
@@ -71,12 +86,29 @@ export default function HomeScreen() {
     <Container>
       <Header />
       {/* <LocationText>{text}</LocationText> */}
-      {location !== null && (
+      <LinearGradient
+        colors={
+          colorScheme === "dark"
+            ? ["rgba(0, 0, 0, 1)", "rgba(0, 0, 0, 0)"]
+            : ["rgba(256, 256, 256, 1)", "rgba(256, 256, 256, 0)"]
+        }
+        style={{
+          position: "absolute",
+          left: 0,
+          right: 0,
+          top: 0,
+          height: 100,
+        }}
+      />
+      {location !== null ? (
         <>
           <MapView
             ref={mapView}
             initialRegion={location}
             onRegionChangeComplete={(region) => setLocation(region)}
+            showsUserLocation={true}
+            showsMyLocationButton={true}
+            followsUserLocation={false}
             style={{
               // position: "absolute",
               // top: 0,
@@ -111,6 +143,11 @@ export default function HomeScreen() {
             }}
           />
         </>
+      ) : (
+        <LocationLoadingContainer>
+          <LocationLoadingText>Getting current location...</LocationLoadingText>
+          <ActivityIndicator size="large" />
+        </LocationLoadingContainer>
       )}
       <ResourceList
         resources={resources}
