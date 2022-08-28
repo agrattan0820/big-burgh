@@ -3,13 +3,21 @@ import styled, { useTheme } from "styled-components/native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { ResourcesType } from "./Data";
 import { useLocation } from "./hooks/useLocation";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
+/** TYPES */
 interface ColorProps {
   color: "blue" | "yellow";
 }
 
 type TypeOfResource = "food" | "job" | "shelter" | "activity";
 
+/** Used to grab type from resources data */
+type ArrElement<ArrType> = ArrType extends readonly (infer ElementType)[]
+  ? ElementType
+  : never;
+
+/** STYLED COMPONENTS */
 const ListContainer = styled.ScrollView`
   margin-top: -64px;
   width: 100%;
@@ -19,7 +27,7 @@ const ListContainer = styled.ScrollView`
   box-shadow: 0px 4px 4px ${(props) => props.theme.main};
 `;
 
-const ResourceEntry = styled.Pressable<ColorProps>`
+const ResourceEntryContainer = styled.View<ColorProps>`
   flex-direction: row;
   justify-content: space-between;
   border-radius: 20px;
@@ -110,6 +118,13 @@ const ResourceTypeText = styled.Text<ColorProps>`
   }};
 `;
 
+/** COMPONENTS */
+
+/**
+ * Displays the appropriate FontAwesome icon based on the resource type in an entry
+ *
+ * @returns ReactNode component
+ */
 const ResourceType = ({
   type,
   color,
@@ -168,6 +183,46 @@ const ResourceType = ({
   );
 };
 
+/**
+ * Pressable resource option that displays title, address, and type
+ *
+ * @returns ReactNode component
+ */
+const ResourceEntry = ({
+  resourceColor,
+  onResourcePress,
+  item,
+}: {
+  resourceColor: "blue" | "yellow";
+  onResourcePress: (latitude: number, longitude: number) => void;
+  item: ArrElement<ResourcesType>;
+}) => {
+  return (
+    <TouchableOpacity
+      onPress={() => {
+        onResourcePress(item.latitude, item.longitude);
+      }}
+    >
+      <ResourceEntryContainer color={resourceColor}>
+        <View>
+          <ResourceTitleSection color={resourceColor}>
+            <ResourceTitle color={resourceColor} numberOfLines={2}>
+              {item.name}
+            </ResourceTitle>
+          </ResourceTitleSection>
+          <ResourceSubtitle color={resourceColor}>
+            {item.address ?? item.hours ?? ""}
+          </ResourceSubtitle>
+        </View>
+        <ResourceType
+          type={item.type as TypeOfResource}
+          color={resourceColor}
+        />
+      </ResourceEntryContainer>
+    </TouchableOpacity>
+  );
+};
+
 export default function ResourceList({
   resources,
   onResourcePress,
@@ -175,8 +230,6 @@ export default function ResourceList({
   resources: ResourcesType;
   onResourcePress: (latitude: number, longitude: number) => void;
 }) {
-  // const { location, setLocation } = useLocation();
-
   return (
     <ListContainer
       contentContainerStyle={{ paddingHorizontal: 16, paddingVertical: 24 }}
@@ -185,27 +238,11 @@ export default function ResourceList({
         const resourceColor = i % 2 === 0 ? "blue" : "yellow";
         return (
           <ResourceEntry
-            color={resourceColor}
             key={i}
-            onPress={() => {
-              onResourcePress(item.latitude, item.longitude);
-            }}
-          >
-            <View>
-              <ResourceTitleSection color={resourceColor}>
-                <ResourceTitle color={resourceColor} numberOfLines={2}>
-                  {item.name}
-                </ResourceTitle>
-              </ResourceTitleSection>
-              <ResourceSubtitle color={resourceColor}>
-                {item.address ?? item.hours ?? ""}
-              </ResourceSubtitle>
-            </View>
-            <ResourceType
-              type={item.type as TypeOfResource}
-              color={resourceColor}
-            />
-          </ResourceEntry>
+            resourceColor={resourceColor}
+            onResourcePress={onResourcePress}
+            item={item}
+          />
         );
       })}
     </ListContainer>
