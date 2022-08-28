@@ -11,6 +11,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ThemeProvider } from "styled-components/native";
 
 import HomeScreen from "./screens/Home";
+import SettingsScreen from "./screens/Settings";
 
 const Stack = createNativeStackNavigator();
 
@@ -18,8 +19,8 @@ export default function App() {
   const colorScheme = useColorScheme();
 
   const theme = {
-    main: colorScheme === "dark" ? "#121212" : "#FFFFFF",
-    alternate: colorScheme === "dark" ? "#FFFFFF" : "#121212",
+    main: colorScheme === "dark" ? "#1a1a1a" : "#FFFFFF",
+    alternate: colorScheme === "dark" ? "#FFFFFF" : "#1a1a1a",
     blue: "#A2D6F9",
     lightBlue: "#D4ECFC",
     blueShadow: "0px 4px 4px rgba(162, 214, 249, 0.5)",
@@ -48,6 +49,11 @@ export default function App() {
           <Stack.Screen
             name="Home"
             component={HomeScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Settings"
+            component={SettingsScreen}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>
