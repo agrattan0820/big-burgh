@@ -6,15 +6,19 @@ import { FontAwesome5 } from "@expo/vector-icons";
 
 import { ResourcesType } from "./Data";
 import ResourceList from "./ResourceList";
+import Animated, {
+  useAnimatedScrollHandler,
+  useAnimatedStyle,
+  useSharedValue,
+} from "react-native-reanimated";
 
-const ScrollContainer = styled.ScrollView`
+const ScrollContainer = styled(Animated.ScrollView)`
   width: 100%;
   height: 100%;
 `;
-const Container = styled.View`
+const Container = styled(Animated.View)`
   flex: 1;
   align-items: center;
-  margin-top: -64px;
   width: 100%;
   height: 100%;
   background-color: ${(props) => props.theme.main};
@@ -47,10 +51,29 @@ const BottomTab = ({
   onResourcePress: (latitude: number, longitude: number) => void;
 }) => {
   const [searchText, setSearchText] = useState("");
+  const translationY = useSharedValue(-64);
+
+  const scrollHandler = useAnimatedScrollHandler((event) => {
+    translationY.value = event.contentOffset.y;
+    console.log(translationY.value);
+  });
+
+  const stylez = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          translateY: translationY.value * -1,
+        },
+      ],
+      // marginTop: translationY.value * -64,
+    };
+  });
 
   return (
-    <Container>
+    <Container style={stylez}>
       <ScrollContainer
+        onScroll={scrollHandler}
+        style={{ width: "100%", height: "100%" }}
         contentContainerStyle={{
           paddingHorizontal: 16,
           paddingVertical: 24,
