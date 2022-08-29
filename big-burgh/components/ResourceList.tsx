@@ -4,6 +4,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { ResourceItem, ResourcesType } from "./Data";
 import { useLocation } from "./hooks/useLocation";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { sortResourceByCrow } from "./CalcCrow";
 
 /** TYPES */
 interface ColorProps {
@@ -236,21 +237,33 @@ export default function ResourceList({
   onResourcePress: (resource: ResourceItem) => void;
 }) {
   const colorScheme = useColorScheme();
+  const { location } = useLocation();
 
   return (
-    <>
-      {resources.map((item, i) => {
-        const resourceColor = i % 2 === 0 ? "blue" : "yellow";
-        return (
-          <ResourceEntry
-            key={i}
-            resourceColor={resourceColor}
-            onResourcePress={onResourcePress}
-            item={item}
-            dark={colorScheme === "dark"}
-          />
-        );
-      })}
-    </>
+    location !== null && (
+      <>
+        {resources
+          .sort((a, b) => {
+            return sortResourceByCrow(
+              location.latitude,
+              location.longitude,
+              a,
+              b
+            );
+          })
+          .map((item, i) => {
+            const resourceColor = i % 2 === 0 ? "blue" : "yellow";
+            return (
+              <ResourceEntry
+                key={i}
+                resourceColor={resourceColor}
+                onResourcePress={onResourcePress}
+                item={item}
+                dark={colorScheme === "dark"}
+              />
+            );
+          })}
+      </>
+    )
   );
 }

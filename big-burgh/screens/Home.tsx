@@ -49,9 +49,10 @@ const LocationLoadingText = styled.Text`
 
 export default function HomeScreen({ navigation }) {
   const [selectedResource, setSelectedResource] = useState<ResourceItem>();
+  const { location } = useLocation();
+  const [region, setRegion] = useState(location);
   const mapView = useRef<MapView>(null);
   const colorScheme = useColorScheme();
-  const { text, location, setLocation } = useLocation();
 
   const animateToCoordinates = (latitude: number, longitude: number) => {
     mapView.current.animateToRegion(
@@ -98,12 +99,12 @@ export default function HomeScreen({ navigation }) {
     <Container>
       <Header navigation={navigation} />
       {/* <LocationText>{text}</LocationText> */}
-      {location !== null ? (
+      {region !== undefined ? (
         <>
           <MapView
             ref={mapView}
             initialRegion={location}
-            onRegionChangeComplete={(region) => setLocation(region)}
+            onRegionChangeComplete={(region) => setRegion(region)}
             showsUserLocation={true}
             showsMyLocationButton={true}
             followsUserLocation={false}
