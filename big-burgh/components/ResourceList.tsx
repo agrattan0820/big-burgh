@@ -110,6 +110,13 @@ const ResourceTypeText = styled.Text<ColorProps>`
 
 /** COMPONENTS */
 
+export const iconMap: Record<TypeOfResource, string> = {
+  food: "carrot",
+  job: "briefcase",
+  shelter: "home",
+  activity: "paint-brush",
+};
+
 /**
  * Displays the appropriate FontAwesome icon based on the resource type in an entry
  *
@@ -125,15 +132,10 @@ const ResourceType = ({
   dark: boolean;
 }) => {
   const theme = useTheme();
-  const iconMap: Record<TypeOfResource, string> = {
-    food: "carrot",
-    job: "briefcase",
-    shelter: "home",
-    activity: "paint-brush",
-  };
+  const colorScheme = useColorScheme();
 
   const iconColor =
-    theme.main === "#FFFFFF"
+    colorScheme === "light"
       ? "black"
       : color === "blue"
       ? theme.blue
