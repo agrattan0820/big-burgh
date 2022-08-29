@@ -30,6 +30,7 @@ const ResourceTitleContainer = styled.View`
   box-shadow: ${(props) => props.theme.blueShadow};
   border-radius: 10px;
   padding: 8px;
+  max-width: 300px;
 `;
 
 const ResourceTitle = styled.Text`
