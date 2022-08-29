@@ -23,7 +23,7 @@ const ScrollContainer = styled(Animated.ScrollView)`
 const Container = styled(Animated.View)`
   flex: 1;
   align-items: center;
-  margin-top: -64px;
+  /* margin-top: -64px; */
   width: 100%;
   background-color: ${(props) => props.theme.main};
   border-radius: 20px;
@@ -65,8 +65,6 @@ const BottomTab = ({
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
-      console.log(event.contentOffset.y);
-
       if (!selectedResource) {
         translationY.value = Math.min(Math.max(event.contentOffset.y, 64), 200);
       }
@@ -79,11 +77,22 @@ const BottomTab = ({
     },
   });
 
-  const stylez = useAnimatedStyle(() => {
+  const containerAnimatedStyle = useAnimatedStyle(() => {
     return {
+      // transform: [
+      //   {
+      //     translateY: withSpring(translationY.value * -1),
+      //   },
+      // ],
       marginTop: withSpring(translationY.value * -1),
     };
   });
+
+  // const scrollAnimatedStyle = useAnimatedStyle(() => {
+  //   return {
+  //     paddingBottom: withSpring(translationY.value),
+  //   };
+  // });
 
   const [keyboardStatus, setKeyboardStatus] = useState(undefined);
 
@@ -108,7 +117,7 @@ const BottomTab = ({
   }, [selectedResource]);
 
   return (
-    <Container style={stylez}>
+    <Container style={containerAnimatedStyle}>
       <ScrollContainer
         onScroll={scrollHandler}
         contentContainerStyle={{
@@ -116,6 +125,7 @@ const BottomTab = ({
           paddingVertical: 24,
         }}
         scrollEventThrottle={16}
+        // style={scrollAnimatedStyle}
       >
         {!selectedResource ? (
           <ResourceList
