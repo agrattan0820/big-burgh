@@ -1,8 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { Keyboard } from "react-native";
-import { TextInput } from "react-native-gesture-handler";
 import styled, { useTheme } from "styled-components/native";
-import { FontAwesome5 } from "@expo/vector-icons";
 
 import { ResourceItem, ResourcesType } from "./Data";
 import ResourceList from "./ResourceList";
@@ -59,8 +56,6 @@ const BottomTab = ({
   resources: ResourcesType;
   onResourcePress: (resource: ResourceItem) => void;
 }) => {
-  const theme = useTheme();
-  const [searchText, setSearchText] = useState("");
   const translationY = useSharedValue(64);
 
   const scrollHandler = useAnimatedScrollHandler({
@@ -94,22 +89,6 @@ const BottomTab = ({
   //   };
   // });
 
-  const [keyboardStatus, setKeyboardStatus] = useState(undefined);
-
-  useEffect(() => {
-    const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
-      setKeyboardStatus("Keyboard Shown");
-    });
-    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
-      setKeyboardStatus("Keyboard Hidden");
-    });
-
-    return () => {
-      showSubscription.remove();
-      hideSubscription.remove();
-    };
-  }, []);
-
   useEffect(() => {
     if (selectedResource) {
       translationY.value = 300;
@@ -136,22 +115,6 @@ const BottomTab = ({
           <ResourcePage resource={selectedResource} />
         )}
       </ScrollContainer>
-
-      <SearchContainer>
-        <SearchInput
-          onChangeText={setSearchText}
-          value={searchText}
-          placeholder="Search for jobs, meals..."
-          placeholderTextColor={theme.alternate}
-          onBlur={Keyboard.dismiss}
-        />
-        <FontAwesome5
-          name="search"
-          size={20}
-          placeholder
-          color={theme.alternate}
-        />
-      </SearchContainer>
     </Container>
   );
 };
