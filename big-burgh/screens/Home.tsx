@@ -2,11 +2,12 @@ import { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import styled from "styled-components/native";
 
-import Header from "../components/Header";
+import MapHeader from "../components/MapHeader";
 import { ResourceItem, resources, ResourcesType } from "../components/Data";
 import BottomTab from "../components/BottomTab";
+import Header from "../components/Header";
 
-const Container = styled.View`
+const Container = styled.SafeAreaView`
   width: 100%;
   height: 100%;
   position: relative;
@@ -32,7 +33,8 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <Container>
-      <Header navigation={navigation} />
+      {/* <MapHeader navigation={navigation} /> */}
+      <Header />
       {/* <LocationText>{text}</LocationText> */}
       <BottomTab
         selectedResource={selectedResource}

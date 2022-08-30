@@ -56,18 +56,18 @@ const BottomTab = ({
   resources: ResourcesType;
   onResourcePress: (resource: ResourceItem) => void;
 }) => {
-  const translationY = useSharedValue(64);
+  const translationY = useSharedValue(0);
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
       if (!selectedResource) {
-        translationY.value = Math.min(Math.max(event.contentOffset.y, 64), 200);
+        translationY.value = Math.min(Math.max(event.contentOffset.y, 0), 200);
       }
     },
     onEndDrag: (event) => {
       if (selectedResource && event.contentOffset.y < -100) {
         runOnJS(setSelectedResource)(undefined);
-        translationY.value = 64;
+        translationY.value = 0;
       }
     },
   });
