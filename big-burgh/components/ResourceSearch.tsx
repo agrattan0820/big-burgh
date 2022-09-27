@@ -1,8 +1,8 @@
+import { FontAwesome5 } from "@expo/vector-icons";
 import { useState } from "react";
 import { Keyboard } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import styled, { useTheme } from "styled-components/native";
-import { FontAwesome5 } from "@expo/vector-icons";
 
 const SearchContainer = styled.View`
   position: absolute;
@@ -44,3 +44,5 @@ const ResourceSearch = () => {
     </SearchContainer>
   );
 };
+
+export default ResourceSearch;

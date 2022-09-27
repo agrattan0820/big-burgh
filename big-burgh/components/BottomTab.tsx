@@ -1,18 +1,17 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Animated, {
-  Easing,
   runOnJS,
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
-  withTiming,
 } from "react-native-reanimated";
 import styled, { useTheme } from "styled-components/native";
 
 import { ResourceItem, ResourcesType } from "./Data";
 import ResourceList from "./ResourceList";
 import ResourcePage from "./ResourcePage";
+import ResourceSearch from "./ResourceSearch";
 
 const ScrollContainer = styled(Animated.ScrollView)`
   width: 100%;
@@ -20,29 +19,11 @@ const ScrollContainer = styled(Animated.ScrollView)`
 const Container = styled(Animated.View)`
   flex: 1;
   align-items: center;
-  margin-top: -200px;
+  margin-top: -300px;
   width: 100%;
   background-color: ${(props) => props.theme.main};
   border-radius: 20px;
   box-shadow: 0px 4px 4px ${(props) => props.theme.main};
-`;
-
-const SearchContainer = styled.View`
-  position: absolute;
-  flex-direction: row;
-  justify-content: space-between;
-  top: -48px;
-  width: 342px;
-  height: 40px;
-  background-color: ${(props) => props.theme.main};
-  padding: 8px 16px;
-  border: 2px solid ${(props) => props.theme.yellow};
-  border-radius: 15px;
-`;
-
-const SearchInput = styled.TextInput`
-  font-family: ${(props) => props.theme.font};
-  color: ${(props) => props.theme.alternate};
 `;
 
 const BottomTab = ({
@@ -79,15 +60,8 @@ const BottomTab = ({
           translateY: withSpring(200 + translationY.value * -1),
         },
       ],
-      // marginTop: withSpring(translationY.value * -1),
     };
   });
-
-  // const scrollAnimatedStyle = useAnimatedStyle(() => {
-  //   return {
-  //     paddingBottom: withSpring(translationY.value),
-  //   };
-  // });
 
   useEffect(() => {
     if (selectedResource) {
@@ -104,7 +78,6 @@ const BottomTab = ({
           paddingVertical: 24,
         }}
         scrollEventThrottle={16}
-        // style={scrollAnimatedStyle}
       >
         {!selectedResource ? (
           <ResourceList
@@ -115,6 +88,7 @@ const BottomTab = ({
           <ResourcePage resource={selectedResource} />
         )}
       </ScrollContainer>
+      <ResourceSearch />
     </Container>
   );
 };

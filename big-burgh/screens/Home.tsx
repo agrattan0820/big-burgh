@@ -41,7 +41,6 @@ export default function HomeScreen({ navigation }) {
       <MapHeader navigation={navigation} />
       <Map region={region} setRegion={setRegion} resources={resources} />
       {/* <Header /> */}
-      {/* <LocationText>{text}</LocationText> */}
       <BottomTab
         selectedResource={selectedResource}
         setSelectedResource={setSelectedResource}
