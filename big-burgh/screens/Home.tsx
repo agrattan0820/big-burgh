@@ -1,11 +1,14 @@
-import { useState } from "react";
 import { StatusBar } from "expo-status-bar";
+import { useRef, useState } from "react";
+import MapView from "react-native-maps";
 import styled from "styled-components/native";
 
-import MapHeader from "../components/MapHeader";
-import { ResourceItem, resources, ResourcesType } from "../components/Data";
 import BottomTab from "../components/BottomTab";
+import { ResourceItem, resources, ResourcesType } from "../components/Data";
 import Header from "../components/Header";
+import Map from "../components/Map";
+import MapHeader from "../components/MapHeader";
+import { useLocation } from "../components/hooks/useLocation";
 
 const Container = styled.SafeAreaView`
   width: 100%;
@@ -26,6 +29,8 @@ const LocationText = styled.Text`
 
 export default function HomeScreen({ navigation }) {
   const [selectedResource, setSelectedResource] = useState<ResourceItem>();
+  const { location } = useLocation();
+  const [region, setRegion] = useState(location);
 
   const resourcePress = (resource: ResourceItem) => {
     setSelectedResource(resource);
@@ -33,8 +38,9 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <Container>
-      {/* <MapHeader navigation={navigation} /> */}
-      <Header />
+      <MapHeader navigation={navigation} />
+      <Map region={region} setRegion={setRegion} resources={resources} />
+      {/* <Header /> */}
       {/* <LocationText>{text}</LocationText> */}
       <BottomTab
         selectedResource={selectedResource}

@@ -1,8 +1,4 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import styled, { useTheme } from "styled-components/native";
-
-import { ResourceItem, ResourcesType } from "./Data";
-import ResourceList from "./ResourceList";
 import Animated, {
   Easing,
   runOnJS,
@@ -12,6 +8,10 @@ import Animated, {
   withSpring,
   withTiming,
 } from "react-native-reanimated";
+import styled, { useTheme } from "styled-components/native";
+
+import { ResourceItem, ResourcesType } from "./Data";
+import ResourceList from "./ResourceList";
 import ResourcePage from "./ResourcePage";
 
 const ScrollContainer = styled(Animated.ScrollView)`
@@ -20,7 +20,7 @@ const ScrollContainer = styled(Animated.ScrollView)`
 const Container = styled(Animated.View)`
   flex: 1;
   align-items: center;
-  /* margin-top: -64px; */
+  margin-top: -200px;
   width: 100%;
   background-color: ${(props) => props.theme.main};
   border-radius: 20px;
@@ -74,12 +74,12 @@ const BottomTab = ({
 
   const containerAnimatedStyle = useAnimatedStyle(() => {
     return {
-      // transform: [
-      //   {
-      //     translateY: withSpring(translationY.value * -1),
-      //   },
-      // ],
-      marginTop: withSpring(translationY.value * -1),
+      transform: [
+        {
+          translateY: withSpring(200 + translationY.value * -1),
+        },
+      ],
+      // marginTop: withSpring(translationY.value * -1),
     };
   });
 
