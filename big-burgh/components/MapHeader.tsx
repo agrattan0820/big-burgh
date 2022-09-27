@@ -1,7 +1,7 @@
-import { View, Text } from "react-native";
-import styled, { useTheme } from "styled-components/native";
 import { FontAwesome } from "@expo/vector-icons";
+import { View, Text } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import styled, { useTheme } from "styled-components/native";
 
 const Container = styled.View`
   position: absolute;

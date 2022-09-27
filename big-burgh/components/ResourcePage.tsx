@@ -1,11 +1,11 @@
-import styled, { useTheme } from "styled-components/native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import * as Linking from "expo-linking";
+import { useColorScheme } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import styled, { useTheme } from "styled-components/native";
 
 import { ResourceItem } from "./Data";
-import { useColorScheme } from "react-native";
 import { iconMap } from "./ResourceList";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 /** TYPES */
 type ButtonProps = {

@@ -1,4 +1,3 @@
-import { useColorScheme } from "react-native";
 import {
   useFonts,
   Nunito_400Regular,
@@ -8,8 +7,10 @@ import {
 } from "@expo-google-fonts/nunito";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { ThemeProvider } from "styled-components/native";
+import { useColorScheme } from "react-native";
+import styled, { ThemeProvider } from "styled-components/native";
 
+import Header from "./components/Header";
 import HomeScreen from "./screens/Home";
 import SettingsScreen from "./screens/Settings";
 
@@ -31,7 +32,7 @@ export default function App() {
     fontBold: "Nunito_700Bold",
   };
 
-  let [fontsLoaded] = useFonts({
+  const [fontsLoaded] = useFonts({
     Nunito_400Regular,
     Nunito_400Regular_Italic,
     Nunito_700Bold,
@@ -42,21 +43,31 @@ export default function App() {
     return null;
   }
 
+  const Container = styled.SafeAreaView`
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background-color: ${(props) => props.theme.main};
+  `;
+
   return (
     <NavigationContainer>
       <ThemeProvider theme={theme}>
-        <Stack.Navigator initialRouteName={"Home"}>
-          <Stack.Screen
-            name="Home"
-            component={HomeScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Settings"
-            component={SettingsScreen}
-            options={{ headerShown: false }}
-          />
-        </Stack.Navigator>
+        <Container>
+          <Header />
+          <Stack.Navigator initialRouteName="Home">
+            <Stack.Screen
+              name="Home"
+              component={HomeScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Settings"
+              component={SettingsScreen}
+              options={{ headerShown: false }}
+            />
+          </Stack.Navigator>
+        </Container>
       </ThemeProvider>
     </NavigationContainer>
   );

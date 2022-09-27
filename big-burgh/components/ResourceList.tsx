@@ -1,10 +1,11 @@
-import { useColorScheme, View } from "react-native";
-import styled, { useTheme } from "styled-components/native";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { useColorScheme, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import styled, { useTheme } from "styled-components/native";
+
+import { sortResourceByCrow } from "./CalcCrow";
 import { ResourceItem, ResourcesType } from "./Data";
 import { useLocation } from "./hooks/useLocation";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { sortResourceByCrow } from "./CalcCrow";
 
 /** TYPES */
 interface ColorProps {
@@ -15,6 +16,10 @@ interface ColorProps {
 type TypeOfResource = "food" | "job" | "shelter" | "activity";
 
 /** STYLED COMPONENTS */
+
+const ResourceListContainer = styled.View`
+  margin-top: 16px;
+`;
 
 const ResourceEntryContainer = styled.View<ColorProps>`
   flex-direction: row;
@@ -241,7 +246,7 @@ export default function ResourceList({
 
   return (
     location !== null && (
-      <>
+      <ResourceListContainer>
         {resources
           .sort((a, b) => {
             return sortResourceByCrow(
@@ -263,7 +268,7 @@ export default function ResourceList({
               />
             );
           })}
-      </>
+      </ResourceListContainer>
     )
   );
 }

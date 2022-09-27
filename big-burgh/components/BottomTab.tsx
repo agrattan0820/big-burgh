@@ -1,8 +1,4 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import styled, { useTheme } from "styled-components/native";
-
-import { ResourceItem, ResourcesType } from "./Data";
-import ResourceList from "./ResourceList";
 import Animated, {
   Easing,
   runOnJS,
@@ -12,6 +8,10 @@ import Animated, {
   withSpring,
   withTiming,
 } from "react-native-reanimated";
+import styled, { useTheme } from "styled-components/native";
+
+import { ResourceItem, ResourcesType } from "./Data";
+import ResourceList from "./ResourceList";
 import ResourcePage from "./ResourcePage";
 
 const ScrollContainer = styled(Animated.ScrollView)`

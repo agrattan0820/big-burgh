@@ -1,3 +1,4 @@
+import { LinearGradient } from "expo-linear-gradient";
 import { Dispatch, MutableRefObject, SetStateAction, useRef } from "react";
 import {
   Dimensions,
@@ -6,8 +7,8 @@ import {
   ActivityIndicator,
 } from "react-native";
 import MapView, { Marker } from "react-native-maps";
-import { LinearGradient } from "expo-linear-gradient";
 import styled from "styled-components/native";
+
 import { ResourcesType } from "./Data";
 
 const LocationLoadingContainer = styled.View`
@@ -60,8 +61,8 @@ export const animateToCoordinates = (
 ) => {
   mapView.current.animateToRegion(
     {
-      latitude: latitude,
-      longitude: longitude,
+      latitude,
+      longitude,
       latitudeDelta: 0.01,
       longitudeDelta: 0.01,
     },
@@ -89,8 +90,8 @@ const Map = ({
             ref={mapView}
             initialRegion={region}
             onRegionChangeComplete={(region) => setRegion(region)}
-            showsUserLocation={true}
-            showsMyLocationButton={true}
+            showsUserLocation
+            showsMyLocationButton
             followsUserLocation={false}
             onTouchStart={() => Keyboard.dismiss()}
             style={{
