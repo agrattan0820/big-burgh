@@ -10,7 +10,7 @@ import Map from "../components/Map";
 import MapHeader from "../components/MapHeader";
 import { useLocation } from "../components/hooks/useLocation";
 
-const Container = styled.SafeAreaView`
+const Container = styled.View`
   width: 100%;
   height: 100%;
   position: relative;

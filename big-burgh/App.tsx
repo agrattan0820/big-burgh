@@ -1,4 +1,3 @@
-import { useColorScheme } from "react-native";
 import {
   useFonts,
   Nunito_400Regular,
@@ -8,6 +7,7 @@ import {
 } from "@expo-google-fonts/nunito";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useColorScheme } from "react-native";
 import { ThemeProvider } from "styled-components/native";
 
 import HomeScreen from "./screens/Home";
@@ -31,7 +31,7 @@ export default function App() {
     fontBold: "Nunito_700Bold",
   };
 
-  let [fontsLoaded] = useFonts({
+  const [fontsLoaded] = useFonts({
     Nunito_400Regular,
     Nunito_400Regular_Italic,
     Nunito_700Bold,
@@ -45,7 +45,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <ThemeProvider theme={theme}>
-        <Stack.Navigator initialRouteName={"Home"}>
+        <Stack.Navigator initialRouteName="Home">
           <Stack.Screen
             name="Home"
             component={HomeScreen}
