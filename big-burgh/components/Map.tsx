@@ -75,6 +75,7 @@ const Map = ({
   setRegion,
   resources,
 }: {
+  // innerRef: MutableRefObject<MapView>;
   region: RegionType;
   setRegion: Dispatch<SetStateAction<RegionType>>;
   resources: ResourcesType;
@@ -138,5 +139,4 @@ const Map = ({
     </>
   );
 };
-
 export default Map;

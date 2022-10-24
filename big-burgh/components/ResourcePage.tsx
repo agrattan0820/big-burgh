@@ -1,22 +1,25 @@
-import styled, { useTheme } from "styled-components/native";
-import { FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome5, FontAwesome } from "@expo/vector-icons";
 import * as Linking from "expo-linking";
+import { Touchable, useColorScheme } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import styled, { useTheme } from "styled-components/native";
 
 import { ResourceItem } from "./Data";
-import { useColorScheme } from "react-native";
 import { iconMap } from "./ResourceList";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 /** TYPES */
 type ButtonProps = {
   color: "yellow" | "blue";
   dark: boolean;
+  gap?: boolean;
 };
 
 /** STYLED COMPONENTS */
 
 const Container = styled.View`
   width: 100%;
+  padding-bottom: 32px;
+  padding: 0 8px;
 `;
 
 const ResourceHeader = styled.View`
@@ -79,7 +82,7 @@ const LargeResourceEntryText = styled.Text`
 
 const ButtonRow = styled.View`
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 `;
 
@@ -94,7 +97,22 @@ const Button = styled(TouchableOpacity)<ButtonProps>`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  margin-right: ${(props) => (props.gap ? "16px" : "0px")};
   padding: 14px;
+`;
+
+const SaveButton = styled(TouchableOpacity)<ButtonProps>`
+  width: 336px;
+  border: 2px solid ${(props) => props.theme.yellow};
+  box-shadow: ${(props) =>
+    props.color === "blue" ? props.theme.blueShadow : props.theme.yellowShadow};
+  border-radius: 15px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: ${(props) => (props.gap ? "16px" : "0px")};
+  padding: 14px;
+  margin: 16px auto;
 `;
 
 const ButtonText = styled.Text`
@@ -176,6 +194,7 @@ const ResourcePage = ({ resource }: { resource: ResourceItem }) => {
             <Button
               color="blue"
               dark={colorScheme === "dark"}
+              gap
               onPress={() => {
                 Linking.openURL(`tel:${resource.phone}`);
               }}
@@ -201,6 +220,10 @@ const ResourcePage = ({ resource }: { resource: ResourceItem }) => {
             </Button>
           ) : null}
         </ButtonRow>
+        <SaveButton color="yellow" dark={colorScheme === "dark"}>
+          <ButtonText>View on Map</ButtonText>
+          <FontAwesome5 name="map-marker-alt" size={24} color="black" />
+        </SaveButton>
       </ResourceBody>
     </Container>
   );

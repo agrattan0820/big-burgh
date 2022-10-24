@@ -19,7 +19,7 @@ const ScrollContainer = styled(Animated.ScrollView)`
 const Container = styled(Animated.View)`
   flex: 1;
   align-items: center;
-  margin-top: -300px;
+  margin-top: -200px;
   width: 100%;
   background-color: ${(props) => props.theme.main};
   border-radius: 20px;
@@ -42,7 +42,7 @@ const BottomTab = ({
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
       if (!selectedResource) {
-        translationY.value = Math.min(Math.max(event.contentOffset.y, 0), 200);
+        translationY.value = Math.min(Math.max(event.contentOffset.y, 0), 150);
       }
     },
     onEndDrag: (event) => {
@@ -57,7 +57,7 @@ const BottomTab = ({
     return {
       transform: [
         {
-          translateY: withSpring(200 + translationY.value * -1),
+          translateY: withSpring(150 + translationY.value * -1),
         },
       ],
     };
@@ -65,7 +65,7 @@ const BottomTab = ({
 
   useEffect(() => {
     if (selectedResource) {
-      translationY.value = 300;
+      translationY.value = 150;
     }
   }, [selectedResource]);
 

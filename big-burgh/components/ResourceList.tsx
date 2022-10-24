@@ -1,10 +1,11 @@
-import { useColorScheme, View } from "react-native";
-import styled, { useTheme } from "styled-components/native";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { useColorScheme, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import styled, { useTheme } from "styled-components/native";
+
+import { sortResourceByCrow } from "./CalcCrow";
 import { ResourceItem, ResourcesType } from "./Data";
 import { useLocation } from "./hooks/useLocation";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { sortResourceByCrow } from "./CalcCrow";
 
 /** TYPES */
 interface ColorProps {
@@ -240,30 +241,28 @@ export default function ResourceList({
   const { location } = useLocation();
 
   return (
-    location !== null && (
-      <>
-        {resources
-          .sort((a, b) => {
-            return sortResourceByCrow(
-              location.latitude,
-              location.longitude,
-              a,
-              b
-            );
-          })
-          .map((item, i) => {
-            const resourceColor = i % 2 === 0 ? "blue" : "yellow";
-            return (
-              <ResourceEntry
-                key={i}
-                resourceColor={resourceColor}
-                onResourcePress={onResourcePress}
-                item={item}
-                dark={colorScheme === "dark"}
-              />
-            );
-          })}
-      </>
-    )
+    <>
+      {resources
+        // .sort((a, b) => {
+        //   return sortResourceByCrow(
+        //     location.latitude,
+        //     location.longitude,
+        //     a,
+        //     b
+        //   );
+        // })
+        .map((item, i) => {
+          const resourceColor = i % 2 === 0 ? "blue" : "yellow";
+          return (
+            <ResourceEntry
+              key={i}
+              resourceColor={resourceColor}
+              onResourcePress={onResourcePress}
+              item={item}
+              dark={colorScheme === "dark"}
+            />
+          );
+        })}
+    </>
   );
 }
