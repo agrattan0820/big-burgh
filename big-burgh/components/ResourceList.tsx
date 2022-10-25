@@ -245,30 +245,28 @@ export default function ResourceList({
   const { location } = useLocation();
 
   return (
-    location !== null && (
-      <ResourceListContainer>
-        {resources
-          .sort((a, b) => {
-            return sortResourceByCrow(
-              location.latitude,
-              location.longitude,
-              a,
-              b
-            );
-          })
-          .map((item, i) => {
-            const resourceColor = i % 2 === 0 ? "blue" : "yellow";
-            return (
-              <ResourceEntry
-                key={i}
-                resourceColor={resourceColor}
-                onResourcePress={onResourcePress}
-                item={item}
-                dark={colorScheme === "dark"}
-              />
-            );
-          })}
-      </ResourceListContainer>
-    )
+    <>
+      {resources
+        // .sort((a, b) => {
+        //   return sortResourceByCrow(
+        //     location.latitude,
+        //     location.longitude,
+        //     a,
+        //     b
+        //   );
+        // })
+        .map((item, i) => {
+          const resourceColor = i % 2 === 0 ? "blue" : "yellow";
+          return (
+            <ResourceEntry
+              key={i}
+              resourceColor={resourceColor}
+              onResourcePress={onResourcePress}
+              item={item}
+              dark={colorScheme === "dark"}
+            />
+          );
+        })}
+    </>
   );
 }

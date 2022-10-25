@@ -8,7 +8,7 @@ import {
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useColorScheme } from "react-native";
-import styled, { ThemeProvider } from "styled-components/native";
+import { ThemeProvider } from "styled-components/native";
 
 import Header from "./components/Header";
 import HomeScreen from "./screens/Home";
@@ -53,21 +53,18 @@ export default function App() {
   return (
     <NavigationContainer>
       <ThemeProvider theme={theme}>
-        <Container>
-          <Header />
-          <Stack.Navigator initialRouteName="Home">
-            <Stack.Screen
-              name="Home"
-              component={HomeScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Settings"
-              component={SettingsScreen}
-              options={{ headerShown: false }}
-            />
-          </Stack.Navigator>
-        </Container>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen
+            name="Home"
+            component={HomeScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Settings"
+            component={SettingsScreen}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
       </ThemeProvider>
     </NavigationContainer>
   );
