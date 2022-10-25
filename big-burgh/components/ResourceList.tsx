@@ -17,6 +17,10 @@ type TypeOfResource = "food" | "job" | "shelter" | "activity";
 
 /** STYLED COMPONENTS */
 
+const ResourceListContainer = styled.View`
+  margin-top: 16px;
+`;
+
 const ResourceEntryContainer = styled.View<ColorProps>`
   flex-direction: row;
   justify-content: space-between;

@@ -23,6 +23,10 @@ const Container = styled.View`
   background-color: ${(props) => props.theme.main};
 `;
 
+const ScrollContainer = styled.ScrollView`
+  width: 100%;
+`;
+
 const LocationText = styled.Text`
   position: absolute;
   top: 72px;

@@ -1,12 +1,15 @@
-import styled from "styled-components/native";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
+import { View, useColorScheme } from "react-native";
+import styled from "styled-components/native";
+
 import Logo from "./Logo";
 
 const Container = styled.View`
   width: 100%;
   height: 100px;
   background-color: ${(props) => props.theme.main};
-  box-shadow: 0px 4px 4px rgba(220, 220, 220, 0.5);
+  box-shadow: 4px 4px 4px rgba(220, 220, 220, 0.5);
   margin-bottom: 16px;
   flex-direction: row;
   justify-content: space-between;
@@ -21,10 +24,12 @@ const TitleText = styled.Text`
 
 const Header = () => {
   return (
-    <Container>
-      <Logo />
-      <FontAwesome5 name="bars" size={24} color="black" />
-    </Container>
+    <View style={{ position: "relative", height: 100, zIndex: 50 }}>
+      <Container>
+        <Logo />
+        <FontAwesome5 name="bars" size={24} color="black" />
+      </Container>
+    </View>
   );
 };
 

@@ -5,11 +5,11 @@ import { TextInput } from "react-native-gesture-handler";
 import styled, { useTheme } from "styled-components/native";
 
 const SearchContainer = styled.View`
-  position: absolute;
   flex-direction: row;
   justify-content: space-between;
-  top: -48px;
-  width: 342px;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 342px;
   height: 40px;
   background-color: ${(props) => props.theme.main};
   padding: 8px 16px;
