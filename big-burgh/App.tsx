@@ -10,7 +10,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useColorScheme } from "react-native";
 import { ThemeProvider } from "styled-components/native";
 
-import Header from "./components/Header";
 import HomeScreen from "./screens/Home";
 import SettingsScreen from "./screens/Settings";
 
@@ -42,13 +41,6 @@ export default function App() {
   if (!fontsLoaded) {
     return null;
   }
-
-  const Container = styled.SafeAreaView`
-    width: 100%;
-    height: 100%;
-    position: relative;
-    background-color: ${(props) => props.theme.main};
-  `;
 
   return (
     <NavigationContainer>
