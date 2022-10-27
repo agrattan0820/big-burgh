@@ -2,7 +2,7 @@
 
 A new design and construction of the Big Burgh web app used to help Pittsburgh natives find resources such as food and shelter.
 
-Original/current application: <https://www.bigburgh.com/>
+Origin of redesign/inspiration: <https://www.bigburgh.com/>
 
 
 https://user-images.githubusercontent.com/51346343/198172371-a9789024-708a-4c7b-ac35-7de88441136c.mp4
