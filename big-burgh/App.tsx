@@ -8,7 +8,7 @@ import {
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useColorScheme } from "react-native";
-import { ThemeProvider } from "styled-components/native";
+import styled, { ThemeProvider } from "styled-components/native";
 
 import Header from "./components/Header";
 import HomeScreen from "./screens/Home";
